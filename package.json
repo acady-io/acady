@@ -1,0 +1,73 @@
+{
+  "name": "acady",
+  "version": "1.0.1",
+  "description": "",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "npm run clean && tsc",
+    "prepare": "npm run build",
+    "test": "npm run prepare && jest",
+    "dev": "npm run build && node ./build/bin/acady.js"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "@types/sha256": "^0.2.0",
+    "jest": "^26.6.3",
+    "rimraf": "^2.7.1",
+    "ts-jest": "^26.4.4",
+    "typescript": "^3.6.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-academy/acady.git"
+  },
+  "author": "Christian Schab <christian.schab@web.academy>",
+  "license": "MIT",
+  "dependencies": {},
+  "bin": {
+    "acady": "./build/bin/acady.js"
+  },
+  "keywords": [
+    "serverless",
+    "web.academy",
+    "acady",
+    "cli",
+    "devtools",
+    "webdev",
+    "devops"
+  ],
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
+  },
+  "release": {
+    "branches": [
+      "+([0-9])?(.{+([0-9]),x}).x",
+      "main",
+      {
+        "name": "canary",
+        "prerelease": true
+      },
+      {
+        "name": "alpha",
+        "prerelease": true
+      },
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ]
+  }
+}
