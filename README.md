@@ -1,6 +1,6 @@
-# acady (by web.academy)
+# acady
 
-CLI tool to build, bootstrap, deploy and manage serverless components.
+CLI tool to build, bootstrap, deploy and manage serverless and web components.
 
 
 ## Installation

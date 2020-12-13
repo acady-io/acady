@@ -1,2 +1,6 @@
 #!/usr/bin/env node
-console.log("Hi, I'm acady");
+
+import {ProgramBuilder} from "../builders/program-builder";
+
+const program = ProgramBuilder.build();
+program.parse(process.argv);

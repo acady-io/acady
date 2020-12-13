@@ -1,6 +1,6 @@
 {
   "name": "acady",
-  "version": "1.0.1",
+  "version": "0.0.1-dev",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -8,8 +8,8 @@
     "lib"
   ],
   "scripts": {
-    "clean": "rimraf lib",
-    "build": "npm run clean && tsc",
+    "clean": "rimraf build",
+    "build": "npm run clean && tsc && chmod +x ./build/bin/acady.js",
     "prepare": "npm run build",
     "test": "npm run prepare && jest",
     "dev": "npm run build && node ./build/bin/acady.js"
@@ -24,11 +24,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/web-academy/acady.git"
+    "url": "https://github.com/acady-io/acady.git"
   },
   "author": "Christian Schab <christian.schab@web.academy>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "aws-sdk": "^2.809.0",
+    "cli-table": "^0.3.4",
+    "commander": "^6.2.0",
+    "gluegun": "^4.5.0",
+    "inquirer": "^7.3.3",
+    "inquirer-autocomplete-prompt": "^1.3.0",
+    "log-symbols": "^4.0.0",
+    "nanoid": "^3.1.20",
+    "node-fetch": "^2.6.1"
+  },
   "bin": {
     "acady": "./build/bin/acady.js"
   },
