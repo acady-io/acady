@@ -1,6 +1,4 @@
-class App {
+export class AccountType {
     id: string;
     name: string;
 }
-
-export {App};

@@ -20,12 +20,11 @@ class AccountService {
         let newAccounts: Account[] = [];
 
         for (let oldAccount of oldAccounts) {
-            if (oldAccount.id !== account.id)
+            if (oldAccount.type !== account.type || oldAccount.id !== account.id)
                 newAccounts.push(oldAccount);
         }
 
         newAccounts.push(account);
-
         AccountService.storeAccounts(newAccounts);
     }
 
@@ -57,11 +56,11 @@ class AccountService {
         AccountService.storeAccounts(filteredAccounts);
     }
 
-    public static loadAccount(accountId: string): Account {
+    public static loadAccount(accountType: string, accountId: string): Account {
         const accounts = AccountService.listAccounts();
 
         for (let account of accounts) {
-            if (account.id === accountId) {
+            if (account.id === accountId && account.type == accountType) {
                 return account;
             }
         }

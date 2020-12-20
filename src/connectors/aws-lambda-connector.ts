@@ -1,10 +1,10 @@
 import {Credentials, Lambda} from "aws-sdk";
 
-class LambdaConnector {
+class AwsLambdaConnector {
 
 
     public static listFunctions(credentials: Credentials, region: string, marker?: string): Promise<Lambda.ListFunctionsResponse> {
-        const client = LambdaConnector.getClient(credentials, region);
+        const client = AwsLambdaConnector.getClient(credentials, region);
 
         const params = {
             Marker: marker
@@ -27,4 +27,4 @@ class LambdaConnector {
 
 }
 
-export {LambdaConnector};
+export {AwsLambdaConnector};

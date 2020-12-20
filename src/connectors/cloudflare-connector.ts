@@ -1,5 +1,5 @@
 import logSymbols = require("log-symbols");
-import {CloudflareCredentials} from "../dto/cloudflare-credentials";
+import {CloudflareCredentials} from "../dto/credentials/cloudflare-credentials";
 
 const fetch = require('node-fetch');
 
@@ -17,6 +17,18 @@ class CloudflareConnector {
             throw new Error('Token Verification failed');
 
         return true;
+    }
+
+    public static async listAccounts(apiToken: string) {
+        const response = await CloudflareConnector.request(apiToken, 'accounts?per_page=50');
+
+        if (!response.success)
+            throw new Error('Token Verification failed');
+
+        if (!Array.isArray(response.result))
+            throw new Error('Token Verification failed');
+
+        return response.result;
     }
 
     public static async listWorkers(credentials: CloudflareCredentials) {

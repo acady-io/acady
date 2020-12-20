@@ -12,18 +12,20 @@ class ComponentService {
         StorageService.storeStorage('components', components);
     }
 
-    public static createComponent(componentName: string, appId: string, runtime: string, type: string) {
-        if (ComponentService.loadComponent(componentName)) {
-            throw new Error('Component ' + componentName + ' already exists!');
+    public static storeComponent(component: Component) {
+        let components = ComponentService.listComponents();
+        components = components.filter(filterComponent => filterComponent.id !== component.id);
+        components.push(component);
+        ComponentService.storeComponents(components);
+    }
+
+
+    public static createComponent(component: Component) {
+        if (ComponentService.loadComponent(component.name)) {
+            throw new Error('Component ' + component.name + ' already exists!');
         }
 
-        const component: Component = {
-            name: componentName,
-            id: nanoid(),
-            app_id: appId,
-            runtime,
-            type
-        };
+        component.id = nanoid();
 
         const componentList = ComponentService.listComponents();
         componentList.push(component);
@@ -40,11 +42,11 @@ class ComponentService {
         ComponentService.storeComponents(filteredComponents);
     }
 
-    public static loadComponent(componentName: string): Component {
+    public static loadComponent(componentId: string): Component {
         const components = ComponentService.listComponents();
 
         for (let component of components) {
-            if (component.name == componentName || component.id == componentName)
+            if (component.id == componentId)
                 return component;
         }
         return null;

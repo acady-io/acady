@@ -1,8 +1,6 @@
-import {Credentials} from "aws-sdk";
-import {LambdaConnector} from "../connectors/lambda-connector";
-import {CloudflareCredentials} from "../dto/cloudflare-credentials";
+import {CloudflareCredentials} from "../../dto/credentials/cloudflare-credentials";
+import {CloudflareConnector} from "../../connectors/cloudflare-connector";
 import logSymbols = require("log-symbols");
-import {CloudflareConnector} from "../connectors/cloudflare-connector";
 
 class CloudflareCredentialsHelper {
 

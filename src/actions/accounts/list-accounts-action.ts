@@ -13,14 +13,14 @@ class ListAccountsAction {
         }
 
         const table = new Table({
-            head: ['ID',  'Type', 'Name']
-            , colWidths: [25, 25, 50]
+            head: ['Type', 'ID',  'Name']
+            , colWidths: [16, 32, 60]
         });
 
         accounts.forEach(account => {
             table.push([
-                account.id,
                 account.type,
+                account.id,
                 account.name
             ]);
         });

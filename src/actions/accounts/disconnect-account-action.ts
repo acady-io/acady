@@ -3,7 +3,7 @@ import logSymbols = require("log-symbols");
 
 const inquirer = require('inquirer');
 
-class RemoveAccountAction {
+class DisconnectAccountAction {
 
     public static async removeAccount(type?: string) {
         try {
@@ -20,18 +20,26 @@ class RemoveAccountAction {
                 choices: accounts.map(account => {
                     return {
                         name: account.name + " (" + account.type + ")",
-                        value: account.id
+                        value: account.type + '|' + account.id
                     };
                 })
+            }, {
+                type: 'input',
+                message: 'Are you sure? (y/N)',
+                name: 'confirm',
+                default: 'n'
             }]);
 
-            const account = AccountService.loadAccount(answers.accountId);
-            AccountService.removeAccount(account.id);
-            console.log(logSymbols.success, "Account " + account.name + " removed!");
+            if (answers.confirm.toLowerCase() === 'y') {
+                const [type, accountId] = answers.accountId.split('|');
+                const account = AccountService.loadAccount(type, accountId);
+                AccountService.removeAccount(account.id);
+                console.log(logSymbols.success, "Account " + account.name + " removed!");
+            }
         } catch (e) {
             console.warn(logSymbols.error, e.message);
         }
     }
 }
 
-export {RemoveAccountAction};
+export {DisconnectAccountAction};
