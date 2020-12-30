@@ -13,13 +13,14 @@ class ListProjectsAction {
         }
 
         const table = new Table({
-            head: ['ID', 'Name']
-            , colWidths: [25, 50]
+            head: ['ID', 'Key', 'Name']
+            , colWidths: [25, 12, 50]
         });
 
         projects.forEach(project => {
             table.push([
                 project.id,
+                project.key,
                 project.name
             ]);
         });
