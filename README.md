@@ -3,7 +3,7 @@
 CLI tool to create, bootstrap, deploy and manage serverless / jamstack omponents.
 
 # Idea
-In contrast to software deployment in the good old mainframe time Nowadays you do not build a big monolith, but you build many smaller components which are more or less independent of each other.
+In contrast to software development in the good old mainframe time Nowadays you do not build a big monolith, but you build many smaller components which are more or less independent of each other.
 
 Over time, you build tens or even hundreds of components that all have to be created, bootstrapped, deployed and managed.
 
