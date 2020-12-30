@@ -1,7 +1,7 @@
 import {Component} from "../../dto/component";
 import {ProjectService} from "../../services/project-service";
 import {CliHelper} from "../../helpers/cli-helper";
-import logSymbols = require("log-symbols");
+import {ProjectAction} from "./project-action";
 
 export class SetupProjectAction {
 
@@ -26,30 +26,7 @@ export class SetupProjectAction {
 
 
         if (component.projectId === 'NEW') {
-            const projectName: string = await CliHelper.prompt({
-                type: 'input',
-                name: 'newProjectName',
-                message: 'Name of the new project',
-                validate: (projectName) => {
-                    const exists = !!ProjectService.loadProject(projectName);
-                    if (exists)
-                        console.log(" " + logSymbols.error, "Project with this name already exists!");
-                    return !exists;
-                }
-            })
-            const projectKey = await CliHelper.prompt({
-                type: 'input',
-                message: 'Project Key (short, uppercase ID)',
-                default: projectName.substr(0, 3).toUpperCase(),
-                validate: (projectKey) => {
-                    const exists = !!ProjectService.loadProject(projectKey);
-                    if (exists)
-                        console.log(" " + logSymbols.error, "Project with this name already exists!");
-                    return !exists;
-                }
-            });
-
-            const newProject = ProjectService.createProject(projectName, projectKey);
+            const newProject = await ProjectAction.createProject();
             component.projectId = newProject.id;
         }
     }

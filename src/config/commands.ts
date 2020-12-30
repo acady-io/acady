@@ -49,11 +49,11 @@ const commands: Command[] = [{
         option: '-t, --target <target>',
         description: 'Target of deployment'
     }],
-    action: (cmdObj) => DeployAction.deploy(cmdObj)
+    action: cmdObj => DeployAction.deploy(cmdObj)
 }, {
-    command: 'create-project <name>',
+    command: 'create-project',
     description: 'Create a new project',
-    action: name => CreateProjectAction.createProject(name)
+    action: cmdObj => CreateProjectAction.createProject(cmdObj)
 }, {
     command: 'connect-account',
     description: 'Connect a account (AWS, Cloudflare, Github, Netlify, ...)',
@@ -61,7 +61,11 @@ const commands: Command[] = [{
 }, {
     command: 'list',
     description: 'List components',
-    action: () => ListAction.list()
+    options: [{
+        option: '-p, --project <project>',
+        description: 'Filter of specific project'
+    }],
+    action: cmdObj => ListAction.list(cmdObj)
 }, {
     command: 'remove',
     description: 'Remove a component',

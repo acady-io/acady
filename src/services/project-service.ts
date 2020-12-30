@@ -41,7 +41,7 @@ class ProjectService {
         const projects = ProjectService.listProjects();
 
         for (let project of projects) {
-            if (project.name == projectName || project.id == projectName)
+            if (project.name.toLowerCase() === projectName.toLowerCase() || project.id === projectName || project.key.toLowerCase() === projectName.toLowerCase())
                 return project;
         }
         return null;
