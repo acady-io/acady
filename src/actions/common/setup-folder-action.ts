@@ -1,10 +1,10 @@
 import {Component} from "../../dto/component";
 import simpleGit, {SimpleGit} from 'simple-git';
+import logSymbols = require("log-symbols");
 
 const username = require('username');
 const fs = require('fs')
 const fse = require('fs-extra');
-const beautify = require("json-beautify");
 
 export class SetupFolderAction {
 
@@ -13,6 +13,8 @@ export class SetupFolderAction {
         const cwd = process.cwd();
         component.folder = cwd + '/' + component.id;
         fs.mkdirSync(component.folder);
+
+        console.log(logSymbols.info, 'Created folder ' + component.folder);
 
         const git: SimpleGit = simpleGit({
             baseDir: component.folder
@@ -30,7 +32,11 @@ export class SetupFolderAction {
     private static async setupPackageJson(component: Component) {
         const packageJson: any = JSON.parse(fs.readFileSync(component.folder + '/package.json'));
 
-        packageJson.name = component.id;
+        if (component.hosting.hostingProvider === 'npm')
+            packageJson.name = component.hosting.providerData.npmFullPackage;
+        else
+            packageJson.name = component.id;
+
         packageJson.description = component.name;
         packageJson.author = await username();
         packageJson.repository = {

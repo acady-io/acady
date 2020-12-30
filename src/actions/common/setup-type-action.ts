@@ -13,10 +13,10 @@ export class SetupTypeAction {
                 message: 'What component do you want to build?',
                 choices: [{
                     value: 'backend',
-                    name: 'Backend component (API, Task Worker, Stream Processor, ... )'
+                    name: 'Backend component (API, Task Worker, Stream Processor, Backend Library, etc.)'
                 }, {
                     value: 'frontend',
-                    name: 'Frontend component (Web Site, Web App, etc.)'
+                    name: 'Frontend component (Web Site, Web App, React Library, etc.)'
                 }]
             });
 
@@ -26,7 +26,6 @@ export class SetupTypeAction {
                 name: 'type',
                 message: 'What ' + component.type + ' component do you want to build?',
                 choices: CliHelper.getChoices(subtypes, component)
-
             });
     }
 }

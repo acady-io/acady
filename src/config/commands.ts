@@ -11,6 +11,7 @@ import {UpdateAccountAction} from "../actions/accounts/update-account-action";
 import {InitAction} from "../actions/component/init-action";
 import {DevAction} from "../actions/component/dev-action";
 import {DeployAction} from "../actions/component/deploy-action";
+import {RemoveAction} from "../actions/components/remove-action";
 
 const commands: Command[] = [{
     command: 'create',
@@ -61,6 +62,10 @@ const commands: Command[] = [{
     command: 'list',
     description: 'List components',
     action: () => ListAction.list()
+}, {
+    command: 'remove',
+    description: 'Remove a component',
+    action: (cmdObj) => RemoveAction.remove(cmdObj)
 }, {
     command: 'list-projects',
     description: 'List projectlications',

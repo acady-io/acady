@@ -21,6 +21,9 @@ const accountTypes: AccountType[] = [{
 }, {
     id: 'bitbucket',
     name: 'Bitbucket'
+}, {
+    id: 'npm',
+    name: 'NPM'
 }];
 
 export default accountTypes;

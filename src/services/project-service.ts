@@ -11,14 +11,15 @@ class ProjectService {
         StorageService.storeStorage('projects', projects);
     }
 
-    public static createProject(projectName: string) {
+    public static createProject(projectName: string, projectKey: string) {
         if (ProjectService.loadProject(projectName)) {
             throw new Error('Project ' + projectName + ' already exists!');
         }
 
         const project: Project = {
             name: projectName,
-            id: nanoid()
+            id: nanoid(),
+            key: projectKey
         };
 
         const projectList = ProjectService.listProjects();
@@ -29,7 +30,7 @@ class ProjectService {
 
     public static removeProject(projectName: string) {
         let projects = ProjectService.listProjects();
-        let filteredProjects = projects.filter(project => project.name !== projectName && project.id !== projectName);
+        let filteredProjects = projects.filter(project => project.name !== projectName && project.id !== projectName && project.key !== projectName);
         if (projects.length == filteredProjects.length)
             throw new Error('Project ' + projectName + ' not found!');
 

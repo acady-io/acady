@@ -38,37 +38,51 @@ const subtypes: Subtype[] = [{
 }, {
     id: 'react',
     name: 'React Web App',
-    type: 'backend',
+    type: 'frontend',
     conditions: {
         type: 'frontend'
     }
 }, {
     id: 'nextjs',
     name: 'Next.js Web App',
-    type: 'backend',
+    type: 'frontend',
     conditions: {
         type: 'frontend'
     }
 }, {
     id: 'gatsby',
     name: 'Gatsby.js Web App',
-    type: 'backend',
+    type: 'frontend',
     conditions: {
         type: 'frontend'
     }
 }, {
     id: 'flareact',
     name: 'Flareact Web App',
-    type: 'backend',
+    type: 'frontend',
     conditions: {
         type: 'frontend'
     }
 }, {
     id: 'bootstrap',
     name: 'Simple Bootstrap Web App',
-    type: 'backend',
+    type: 'frontend',
     conditions: {
         type: 'frontend'
+    }
+}, {
+    id: 'react_library',
+    name: 'React Components Library',
+    type: 'frontend',
+    conditions: {
+        type: 'frontend'
+    }
+}, {
+    id: 'backend_library',
+    name: 'Backend Library (contains e.g. entity definitions, backend functionality for current project)',
+    type: 'backend',
+    conditions: {
+        type: 'backend'
     }
 }];
 

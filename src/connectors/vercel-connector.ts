@@ -3,6 +3,7 @@ import {VercelCredentials} from "../dto/credentials/vercel-credentials";
 import {RepositoryDetails} from "../dto/repository-details";
 
 const fetch = require('node-fetch');
+import { URLSearchParams } from 'url';
 
 class VercelConnector {
     private static ENDPOINT = 'https://api.vercel.com/';

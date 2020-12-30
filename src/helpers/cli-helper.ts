@@ -10,6 +10,9 @@ export class CliHelper {
         if (!question.name)
             question.name = 'default';
 
+        if (!question.type)
+            question.type = 'input';
+
         const answers = await CliHelper.getInquirer().prompt([question]);
         return answers[question.name];
     }

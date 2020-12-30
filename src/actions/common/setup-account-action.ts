@@ -57,7 +57,7 @@ export class SetupAccountAction {
         let accountId = await CliHelper.prompt({
             type: 'list',
             name: 'accountId',
-            message: 'Please select the ' + name + ' account:',
+            message: 'Please select the ' + accountType.name + ' account:',
             choices: [
                 ...accounts.map(account => {
                     return {
@@ -66,7 +66,7 @@ export class SetupAccountAction {
                     }
                 }), {
                     value: 'NEW',
-                    name: 'New ' + name + ' Account'
+                    name: 'New ' + accountType.name + ' Account'
                 }]
         });
 

@@ -11,6 +11,9 @@ export class HostingHelper {
 
     public static getHostingName(id: string) {
         const hosting = HostingHelper.getHosting(id);
+        if (!hosting)
+            throw new Error("I don't know the hosting provider " + id + " yet!");
+
         return hosting.name;
     }
 }

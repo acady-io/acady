@@ -4,7 +4,13 @@ const hostings: SelectOption[] = [{
     id: 'aws_lambda',
     name: 'AWS Lambda',
     conditions: {
-        type: 'backend'
+        subtype: [
+            'rest_api',
+            'task_worker',
+            'edge_proxy',
+            'stream_processor',
+            'event_processor'
+        ]
     }
 }, {
     id: 'cloudflare_workers',
@@ -54,6 +60,15 @@ const hostings: SelectOption[] = [{
             'bootstrap',
             'nextjs',
             'gatsby'
+        ]
+    }
+}, {
+    id: 'npm',
+    name: 'NPM',
+    conditions: {
+        subtype: [
+            'backend_library',
+            'react_library'
         ]
     }
 }];

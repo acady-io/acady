@@ -12,6 +12,9 @@ import {BitbucketCredentials} from "../../dto/credentials/bitbucket-credentials"
 import {BitbucketCredentialsHelper} from "../../helpers/credentials/bitbucket-credentials-helper";
 import accountTypes from "../../config/account-types";
 import {CliHelper} from "../../helpers/cli-helper";
+import {FileHelper} from "../../helpers/file-helper";
+import {StringHelper} from "../../helpers/string-helper";
+import {NpmCredentialsHelper} from "../../helpers/credentials/npm-credentials-helper";
 
 const logSymbols = require('log-symbols');
 const inquirer = require('inquirer');
@@ -30,7 +33,8 @@ class CommonAccountAction {
                         value: accountType.id,
                         name: accountType.name
                     };
-                })});
+                })
+            });
         }
 
         await CommonAccountAction.updateCredentials(account);
@@ -65,6 +69,8 @@ class CommonAccountAction {
                 return await CommonAccountAction.updateGitlabCredentials(account);
             case "bitbucket":
                 return await CommonAccountAction.updateBitbucketCredentials(account);
+            case "npm":
+                return await CommonAccountAction.updateNpmCredentials(account);
             default:
                 throw new Error("Account Type " + account.type + " not known yet");
         }
@@ -97,7 +103,7 @@ class CommonAccountAction {
     private static async updateCloudflareCredentials(account: Account) {
         do {
             console.log(logSymbols.info, 'You can receive your API Token here: https://dash.cloudflare.com/profile/api-tokens');
-            const apiToken = await this.prompt({
+            const apiToken = await CliHelper.prompt({
                 type: 'input',
                 name: 'apiToken',
                 message: 'API Token:',
@@ -117,7 +123,7 @@ class CommonAccountAction {
                 accountId = accounts[0].id;
                 console.log(logSymbols.info, 'Select account ' + accountId);
             } else {
-                accountId = await this.prompt({
+                accountId = await CliHelper.prompt({
                     type: 'list',
                     name: 'accountId',
                     message: 'Select Cloudflare Account:',
@@ -158,7 +164,7 @@ class CommonAccountAction {
     private static async updateNetlifyCredentials(account: Account) {
         do {
             console.log(logSymbols.info, 'You can receive your Personal Access Token here: https://app.netlify.com/user/applications');
-            const apiToken = await this.prompt({
+            const apiToken = await CliHelper.prompt({
                 type: 'input',
                 name: 'apiToken',
                 message: 'Netlify Personal Access Token:',
@@ -180,7 +186,7 @@ class CommonAccountAction {
     private static async updateGithubCredentials(account: Account) {
         do {
             console.log(logSymbols.info, 'You can receive your Personal Access Token here: https://github.com/settings/tokens');
-            const apiToken = await this.prompt({
+            const apiToken = await CliHelper.prompt({
                 type: 'input',
                 name: 'apiToken',
                 message: 'Github Personal Access Token:',
@@ -203,7 +209,7 @@ class CommonAccountAction {
         do {
 
             console.log(logSymbols.info, 'You can receive your Personal Access Token here: https://vercel.com/account/tokens');
-            const apiToken = await this.prompt({
+            const apiToken = await CliHelper.prompt({
                 type: 'input',
                 name: 'apiToken',
                 message: 'Vercel API Token:',
@@ -224,14 +230,14 @@ class CommonAccountAction {
 
     private static async updateGitlabCredentials(account: Account) {
         do {
-            const server = await this.prompt({
+            const server = await CliHelper.prompt({
                 type: 'input',
                 name: 'server',
                 message: 'GitLab server:',
                 default: account.credentials?.server || 'gitlab.com'
             });
             console.log(logSymbols.info, 'You can receive your Personal Access Token here: https://' + server + '/-/profile/personal_access_tokens');
-            const apiToken = await this.prompt({
+            const apiToken = await CliHelper.prompt({
                 type: 'input',
                 name: 'apiToken',
                 message: 'GitLab API Token:',
@@ -254,14 +260,14 @@ class CommonAccountAction {
 
     private static async updateBitbucketCredentials(account: Account) {
         do {
-            const username = await this.prompt({
+            const username = await CliHelper.prompt({
                 type: 'input',
                 name: 'username',
                 message: 'Bitbucket username:',
                 default: account.credentials?.appPassword
             });
             console.log(logSymbols.info, 'You can generate an App Password here: https://bitbucket.org/account/settings/app-passwords/');
-            const appPassword = await this.prompt({
+            const appPassword = await CliHelper.prompt({
                 type: 'input',
                 name: 'appPassword',
                 message: 'Bitbucket app password:',
@@ -295,6 +301,44 @@ class CommonAccountAction {
     }
 
 
+    private static async updateNpmCredentials(account: Account) {
+
+        let authToken = account?.credentials?.authToken;
+
+        if (!authToken) {
+            const npmrc = FileHelper.readUserFile('.npmrc');
+            if (npmrc) {
+                const matches = StringHelper.matchAll(npmrc, /_authToken=([a-z0-9-]+)/gm);
+                authToken = matches[1];
+                if (authToken) {
+                    console.log(logSymbols.info, 'We found an Access Token in your .npmrc file (' + authToken + '). Press enter to use it.');
+                }
+            }
+        }
+
+
+        do {
+            console.log(logSymbols.info, 'You can create a new Personal Access Token here: https://docs.npmjs.com/creating-and-viewing-access-tokens#creating-access-tokens');
+
+            authToken = await CliHelper.prompt({
+                type: 'input',
+                message: 'NPM Access Token:',
+                default: authToken
+            });
+            const credentials = {
+                authToken
+            };
+
+            console.log(logSymbols.info, 'Checking credentials ...');
+
+            const accountId = await NpmCredentialsHelper.verify(credentials);
+            if (this.verifyAccountId(account, credentials, accountId))
+                break;
+
+        } while (true)
+
+    }
+
     private static verifyAccountId(account: Account, credentials: any, accountId: string) {
         if (accountId) {
             if (account.id && account.id !== accountId) {
@@ -312,10 +356,7 @@ class CommonAccountAction {
         return false;
     }
 
-    private static async prompt(question) {
-        const answers = await inquirer.prompt([question]);
-        return answers[question.name];
-    }
+
 }
 
 export {CommonAccountAction};

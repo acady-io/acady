@@ -10,13 +10,16 @@ import {HostingHelper} from "../../helpers/hosting-helper";
 import {SubtypeHelper} from "../../helpers/subtype-helper";
 import {ComponentService} from "../../services/component-service";
 import {SetupFolderAction} from "../common/setup-folder-action";
+import * as chalk from "chalk";
+import {DebugHelper} from "../../helpers/debug-helper";
+import {InitAction} from "../component/init-action";
 
 const logSymbols = require('log-symbols');
 
 class CreateAction {
 
     public static async create(cmdObj: Command) {
-
+        DebugHelper.setCommand(cmdObj);
         try {
             console.clear();
 
@@ -39,6 +42,8 @@ class CreateAction {
             await SetupFolderAction.setupFolder(component);
             ComponentService.storeComponent(component);
 
+            await InitAction.initFolder(component.folder);
+
             component.status = 'READY';
             ComponentService.storeComponent(component);
 
@@ -46,6 +51,8 @@ class CreateAction {
         } catch (e) {
             if (e)
                 console.warn(logSymbols.error, e.message);
+
+            DebugHelper.debug(e);
         }
     }
 

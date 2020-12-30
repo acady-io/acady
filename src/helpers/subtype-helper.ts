@@ -1,4 +1,5 @@
 import subtypes from "../config/subtypes";
+import * as chalk from "chalk";
 
 export class SubtypeHelper {
 
@@ -11,6 +12,9 @@ export class SubtypeHelper {
 
     public static getSubtypeName(id: string) {
         const subtype = SubtypeHelper.getSubtype(id);
+        if (!subtype)
+            throw new Error("I don't know the (sub-)type " + chalk.red(id) + " yet!");
+
         return subtype.name;
     }
 

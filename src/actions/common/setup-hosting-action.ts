@@ -7,6 +7,7 @@ import {VercelConnector} from "../../connectors/vercel-connector";
 import {AccountService} from "../../services/account-service";
 import logSymbols = require("log-symbols");
 import {StringHelper} from "../../helpers/string-helper";
+import * as chalk from "chalk";
 
 export class SetupHostingAction {
 
@@ -17,12 +18,17 @@ export class SetupHostingAction {
                 type: 'list',
                 name: 'hosting',
                 message: 'Please select the hosting provider:',
-                choices: CliHelper.getChoices(hostings, component)
+                choices: [
+                    ...CliHelper.getChoices(hostings, component),
+                    {
+                        name: 'No Hosting (only Repository)',
+                        value: 'NONE'
+                    }]
             });
 
         await SetupAccountAction.setupAccounts(component);
 
-        if (!component.hosting.providerData) {
+        if (!component.hosting.providerData && component.hosting.hostingProvider !== 'NONE') {
             switch (component.hosting.hostingProvider) {
                 case "vercel":
                     await SetupHostingAction.setupVercel(component);
@@ -30,6 +36,11 @@ export class SetupHostingAction {
                 case "netlify":
                     await SetupHostingAction.setupNetlify(component);
                     break;
+                case "npm":
+                    await SetupHostingAction.setupNpm(component);
+                    break;
+                default:
+                    throw new Error('No Setup for ' + component.hosting.hostingProvider + ' implemented yet');
             }
         }
 
@@ -142,6 +153,29 @@ export class SetupHostingAction {
         const netlifyAccount = AccountService.loadAccount('netlify', netlifyConfig.accountId);
 
 
-
     }
+
+    private static async setupNpm(component: Component) {
+        const orgName = await CliHelper.prompt({
+            message: 'Name of the NPM organization to use (without @), leave empty if no org shall be used:'
+        });
+
+        const packageName = await CliHelper.prompt({
+            message: 'Name of the NPM package (without org prefix):',
+            default: component.id
+        });
+
+        const fullPackageName = orgName && orgName.length > 0 ? '@' + orgName + '/' + packageName : packageName;
+
+        console.log(logSymbols.info, 'We use the following full npm package name: ', chalk.whiteBright(fullPackageName));
+
+        component.hosting.providerData = {
+            npmPackage: packageName,
+            npmOrg: orgName,
+            npmFullPackage: fullPackageName
+        };
+
+    };
+
+
 }

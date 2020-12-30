@@ -1,8 +1,8 @@
 import {Command} from "commander";
 import {ComponentService} from "../../services/component-service";
-import logSymbols = require("log-symbols");
 import {NpmHelper} from "../../helpers/npm-helper";
 import {AcadyConfigHelper} from "../../helpers/acady-config-helper";
+
 const path = require("path");
 
 export class InitAction {

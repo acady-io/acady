@@ -14,33 +14,43 @@ export class SetupProjectAction {
         projectSelection.push({value: 'NONE', name: 'No project (not recommend)'});
         projectSelection.push({value: 'NEW', name: 'New project'});
         projects.forEach(project => {
-            projectSelection.push({value: project.id, name: project.name});
+            projectSelection.push({value: project.id, name: project.key + ": " + project.name});
         });
 
-        const answers = await CliHelper.getInquirer().prompt([{
-            type: 'list',
-            name: 'projectId',
-            message: 'Please select the project the new component will be part of:',
-            choices: projectSelection
-        }, {
-            type: 'input',
-            name: 'newProjectName',
-            message: 'Name of the new project',
-            when: (answers) => {
-                return answers.projectId == 'NEW';
-            },
-            validate: (newProjectName) => {
-                const exists = !!ProjectService.loadProject(newProjectName);
-                if (exists)
-                    console.log(" " + logSymbols.error, "Project with this name already exists!");
-                return !exists;
-            }
-        }]);
-        if (answers.projectId === 'NEW') {
-            const newProject = ProjectService.createProject(answers.newProjectName);
+        if (!component.projectId)
+            component.projectId = await CliHelper.prompt({
+                type: 'list',
+                message: 'Please select the project the new component will be part of:',
+                choices: projectSelection
+            });
+
+
+        if (component.projectId === 'NEW') {
+            const projectName: string = await CliHelper.prompt({
+                type: 'input',
+                name: 'newProjectName',
+                message: 'Name of the new project',
+                validate: (projectName) => {
+                    const exists = !!ProjectService.loadProject(projectName);
+                    if (exists)
+                        console.log(" " + logSymbols.error, "Project with this name already exists!");
+                    return !exists;
+                }
+            })
+            const projectKey = await CliHelper.prompt({
+                type: 'input',
+                message: 'Project Key (short, uppercase ID)',
+                default: projectName.substr(0, 3).toUpperCase(),
+                validate: (projectKey) => {
+                    const exists = !!ProjectService.loadProject(projectKey);
+                    if (exists)
+                        console.log(" " + logSymbols.error, "Project with this name already exists!");
+                    return !exists;
+                }
+            });
+
+            const newProject = ProjectService.createProject(projectName, projectKey);
             component.projectId = newProject.id;
-        } else {
-            component.projectId = answers.projectId;
         }
     }
 }

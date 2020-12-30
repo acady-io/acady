@@ -1,4 +1,4 @@
-const { filesystem } = require('gluegun/filesystem')
+const { filesystem } = require('gluegun/filesystem');
 
 class StorageService {
 
