@@ -10,7 +10,7 @@ Over time, you build tens or even hundreds of components that all have to be cre
 This is where acady comes into place. Acady helps you do those recurring tasks that are often similar but never equal and so difficult to automate and annoying for each web developer.
 
 The goal of acady is to give you a tool that helps you build great software even faster.
-Regardless of whether you are building a Task Worker for AWS Lambda, a Gatsby Site on Vercel, a REST API on Clouflare Workers ... acady can assist you.
+Regardless of whether you are building a Task Worker on AWS Lambda, a Gatsby Site on Vercel, a REST API on Clouflare Workers ... acady can assist you.
 
 # Installation
 
