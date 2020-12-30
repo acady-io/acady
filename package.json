@@ -82,14 +82,6 @@
       "+([0-9])?(.{+([0-9]),x}).x",
       "master",
       {
-        "name": "canary",
-        "prerelease": true
-      },
-      {
-        "name": "alpha",
-        "prerelease": true
-      },
-      {
         "name": "beta",
         "prerelease": true
       }
