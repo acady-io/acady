@@ -8,9 +8,7 @@ export class BitbucketConnector {
 
     public static async listRepositories(credentials: BitbucketCredentials) {
         let repositories = [];
-
         let response = null;
-
         let url = 'https://api.bitbucket.org/2.0/repositories?role=contributor&pagelen=100';
 
         do {
@@ -26,9 +24,7 @@ export class BitbucketConnector {
 
     public static async listWorkspaces(credentials: BitbucketCredentials) {
         let workspaces = [];
-
         let response = null;
-
         let url = 'https://api.bitbucket.org/2.0/workspaces?role=member&pagelen=100';
 
         do {

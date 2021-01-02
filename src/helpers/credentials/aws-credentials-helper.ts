@@ -16,7 +16,7 @@ class AwsCredentialsHelper {
                 const user = await AwsIamConnector.getCurrentUser(credentials);
                 const arn = user.Arn;
                 const arnParts = arn.split(':');
-                return arnParts[5];
+                return arnParts[4];
 
             } catch (e) {
                 const message = e.message;

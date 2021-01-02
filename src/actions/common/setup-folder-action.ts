@@ -1,6 +1,8 @@
 import {Component} from "../../dto/component";
 import simpleGit, {SimpleGit} from 'simple-git';
 import logSymbols = require("log-symbols");
+import {FileHelper} from "../../helpers/file-helper";
+import {AcadyConfigHelper} from "../../helpers/acady-config-helper";
 
 const username = require('username');
 const fs = require('fs')
@@ -11,7 +13,7 @@ export class SetupFolderAction {
     public static async setupFolder(component: Component) {
 
         const cwd = process.cwd();
-        component.folder = cwd + '/' + component.id;
+        component.folder = FileHelper.path([cwd, component.id]);
         fs.mkdirSync(component.folder);
 
         console.log(logSymbols.info, 'Created folder ' + component.folder);
@@ -30,7 +32,7 @@ export class SetupFolderAction {
     }
 
     private static async setupPackageJson(component: Component) {
-        const packageJson: any = JSON.parse(fs.readFileSync(component.folder + '/package.json'));
+        const packageJson: any = JSON.parse(fs.readFileSync(FileHelper.path([component.folder, 'package.json'])));
 
         if (component.hosting.hostingProvider === 'npm')
             packageJson.name = component.hosting.providerData.npmFullPackage;
@@ -44,7 +46,7 @@ export class SetupFolderAction {
             url: component.repository.gitUrl
         };
 
-        fs.writeFileSync(component.folder + '/package.json', JSON.stringify(packageJson, null, 2) + "\n");
+        fs.writeFileSync(FileHelper.path([component.folder, 'package.json']), JSON.stringify(packageJson, null, 2) + "\n");
     }
 
     private static async setupAcadayJson(component: Component) {
@@ -54,6 +56,6 @@ export class SetupFolderAction {
         acadyConfig.templateDir = undefined;
         acadyConfig.status = undefined;
 
-        fs.writeFileSync(component.folder + '/acady.json', JSON.stringify(acadyConfig, null, 2) + "\n");
+        AcadyConfigHelper.storeConfig(acadyConfig, component.folder);
     }
 }

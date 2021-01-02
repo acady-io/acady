@@ -12,6 +12,7 @@ import {InitAction} from "../actions/component/init-action";
 import {DevAction} from "../actions/component/dev-action";
 import {DeployAction} from "../actions/component/deploy-action";
 import {RemoveAction} from "../actions/components/remove-action";
+import {BuildAction} from "../actions/component/build-action";
 
 const commands: Command[] = [{
     command: 'create',
@@ -43,11 +44,15 @@ const commands: Command[] = [{
     description: 'Start develop mode for component',
     action: (cmdObj) => DevAction.dev(cmdObj)
 }, {
+    command: 'build',
+    description: 'Build current component',
+    action: (cmdObj) => BuildAction.build(cmdObj)
+}, {
     command: 'deploy',
     description: 'Deploy a compoment',
     options: [{
-        option: '-t, --target <target>',
-        description: 'Target of deployment'
+        option: '-s, --stage <target>',
+        description: 'Stage to deploy to (default: prod)'
     }],
     action: cmdObj => DeployAction.deploy(cmdObj)
 }, {

@@ -18,6 +18,13 @@ const templates: Template[] = [{
     subtype: 'backend_library',
     gitUrl: 'https://github.com/acady-io/template-backend-library.git',
     author: 'christian.schab@web.academy'
+}, {
+    id: 'template-rest-api-http-gateway',
+    name: 'Rest API Http Gateway (AWS) Template',
+    subtype: 'rest_api',
+    hosting: 'aws_lambda',
+    gitUrl: 'https://github.com/acady-io/template-rest-api-http-gateway.git',
+    author: 'christian.schab@web.academy'
 }];
 
 export default templates;
