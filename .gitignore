@@ -25,3 +25,5 @@ yarn-error.log*
 
 # examples: ignore yarn.lock as to include the latest possible version
 examples/*/yarn.lock
+
+package-lock.json

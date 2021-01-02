@@ -32,7 +32,7 @@
   "dependencies": {
     "@octokit/rest": "^18.0.12",
     "@web-academy/core-lib": "^1.0.3",
-    "acady-api-builder": "file:../../ACY/core/acady-api-builder",
+    "acady-api-builder": "^1.2.2",
     "archiver": "^4.0.2",
     "aws-sdk": "^2.814.0",
     "chalk": "^4.1.0",
