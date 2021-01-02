@@ -13,18 +13,22 @@ export class SetupHostingAction {
 
     public static async setupHosting(component: Component) {
 
-        if (!component.hosting.hostingProvider)
+        if (!component.hosting.hostingProvider) {
+            let choices = CliHelper.getChoices(hostings, component);
+            if (component.subtype.endsWith('_library')) {
+                choices.push({
+                    name: 'No Hosting (only Repository)',
+                    value: 'NONE'
+                });
+            }
+
             component.hosting.hostingProvider = await CliHelper.prompt({
                 type: 'list',
                 name: 'hosting',
                 message: 'Please select the hosting provider:',
-                choices: [
-                    ...CliHelper.getChoices(hostings, component),
-                    {
-                        name: 'No Hosting (only Repository)',
-                        value: 'NONE'
-                    }]
+                choices
             });
+        }
 
         await SetupAccountAction.setupAccounts(component);
 
@@ -38,6 +42,9 @@ export class SetupHostingAction {
                     break;
                 case "npm":
                     await SetupHostingAction.setupNpm(component);
+                    break;
+                case "aws_lambda":
+                    await SetupHostingAction.setupAwsLambda(component);
                     break;
                 default:
                     throw new Error('No Setup for ' + component.hosting.hostingProvider + ' implemented yet');
@@ -178,4 +185,22 @@ export class SetupHostingAction {
     };
 
 
+    private static async setupAwsLambda(component: Component) {
+        const lambdaName = await CliHelper.prompt({
+            message: 'Name of the lambda function:',
+            default: component.id
+        });
+
+        component.hosting.providerData = {
+            lambdaName: lambdaName
+        }
+
+        if (component.subtype === 'rest_api') {
+            component.hosting.providerData.apiGatewayName = await CliHelper.prompt({
+                message: 'Name of the API Gateway:',
+                default: component.id
+            });
+        }
+
+    }
 }

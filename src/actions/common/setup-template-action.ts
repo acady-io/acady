@@ -2,10 +2,14 @@ import {Component} from "../../dto/component";
 import templates from "../../config/templates";
 import {CliHelper} from "../../helpers/cli-helper";
 import {TemplateHelper} from "../../helpers/template-helper";
+
 const tmp = require('tmp');
 import simpleGit, {SimpleGit} from 'simple-git';
 import logSymbols = require("log-symbols");
+import {FileHelper} from "../../helpers/file-helper";
+
 const rimraf = require("rimraf");
+
 export class SetupTemplateAction {
 
     public static async setupTemplate(component: Component) {
@@ -46,9 +50,9 @@ export class SetupTemplateAction {
 
         console.log(logSymbols.info, 'Download Template from ' + template.gitUrl);
         await git.clone(template.gitUrl);
-        const templateDir = tmpDir.name + '/' + template.id;
+        const templateDir = FileHelper.path([tmpDir.name, template.id]);
 
-        rimraf.sync(templateDir + '/.git');
+        rimraf.sync(FileHelper.path([templateDir, '.git']));
 
         return templateDir;
     }
