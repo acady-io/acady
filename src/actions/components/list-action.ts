@@ -39,10 +39,12 @@ class ListAction {
             components.forEach(component => {
                 const project = ProjectService.loadProject(component.projectId);
                 const type = SubtypeHelper.getSubtypeName(component.subtype);
+                const projectKey = project?.key || 'NONE';
+
                 table.push([
                     component.id,
                     component.name,
-                    project.key,
+                    projectKey,
                     type
                 ]);
             });

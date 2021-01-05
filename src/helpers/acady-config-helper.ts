@@ -1,9 +1,6 @@
 import logSymbols = require("log-symbols");
 import {AcadyConfig} from "../dto/acady-config";
 import {FileHelper} from "./file-helper";
-
-const {filesystem} = require('gluegun/filesystem');
-
 const fs = require('fs');
 
 export class AcadyConfigHelper {
