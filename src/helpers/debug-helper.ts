@@ -1,5 +1,5 @@
 import {Command} from "commander";
-import * as chalk from "chalk";
+import chalk from "chalk";
 
 export class DebugHelper {
     private static cmdObj;

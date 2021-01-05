@@ -1,5 +1,0 @@
-class AutocompleteHelper {
-
-    public get
-
-}

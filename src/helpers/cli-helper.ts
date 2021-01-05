@@ -6,6 +6,10 @@ export class CliHelper {
 
     private static inquirer;
 
+    public static async prompts(questions: any[]) {
+        return await CliHelper.getInquirer().prompt(questions);
+    }
+
     public static async prompt(question: any) {
         if (!question.name)
             question.name = 'default';
@@ -29,13 +33,15 @@ export class CliHelper {
         options = options.filter(option => {
             const conditions = option.conditions;
 
-            for (let condKey of Object.keys(conditions)) {
-                let condValue: string[] = conditions[condKey];
-                if (!Array.isArray(condValue))
-                    condValue = [condValue];
+            if (option.conditions) {
+                for (let condKey of Object.keys(conditions)) {
+                    let condValue: string[] = conditions[condKey];
+                    if (!Array.isArray(condValue))
+                        condValue = [condValue];
 
-                if (!condValue.includes(component[condKey]))
-                    return false;
+                    if (!condValue.includes(component[condKey]))
+                        return false;
+                }
             }
 
             return true;

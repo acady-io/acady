@@ -13,6 +13,7 @@ import {DevAction} from "../actions/component/dev-action";
 import {DeployAction} from "../actions/component/deploy-action";
 import {RemoveAction} from "../actions/components/remove-action";
 import {BuildAction} from "../actions/component/build-action";
+import {AddEntityAction} from "../actions/entities/add-entity-action";
 
 const commands: Command[] = [{
     command: 'create',
@@ -64,6 +65,10 @@ const commands: Command[] = [{
     description: 'Connect a account (AWS, Cloudflare, Github, Netlify, ...)',
     action: name => ConnectAccountAction.createAccount()
 }, {
+    command: 'add-entity',
+    description: 'Add an entity (type) to current component',
+    action: cmdObject => AddEntityAction.addEntity(cmdObject)
+},{
     command: 'list',
     description: 'List components',
     options: [{

@@ -7,7 +7,7 @@ import {VercelConnector} from "../../connectors/vercel-connector";
 import {AccountService} from "../../services/account-service";
 import logSymbols = require("log-symbols");
 import {StringHelper} from "../../helpers/string-helper";
-import * as chalk from "chalk";
+import chalk from "chalk";
 
 export class SetupHostingAction {
 

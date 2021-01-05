@@ -1,5 +1,6 @@
 const { filesystem } = require('gluegun/filesystem');
 
+const fs = require('fs')
 export class FileHelper {
 
     public static readUserFile(filename: string) {
@@ -38,5 +39,13 @@ export class FileHelper {
                 filesystem.copy(folder + details.pointsAt, folder + file);
             }
         }
+    }
+
+    public static createFolderIfNotExists(folder: string) {
+        const details = filesystem.inspect(folder);
+        if (!details) {
+            fs.mkdirSync(folder);
+        }
+
     }
 }
