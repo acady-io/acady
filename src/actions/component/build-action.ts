@@ -23,29 +23,41 @@ export class BuildAction {
             return;
         }
 
-        let tsConfig = TsconfigHelper.getTsConfig(folder);
-        if (!tsConfig) {
-            return;
+        if (acadyConfig.subtype.startsWith('react')) {
+             // Use React Scripts
+            try {
+                await ExecHelper.exec('react-scripts', ['build'], folder);
+            } catch (e) {
+                console.warn(e);
+            }
+
+        } else {
+            let tsConfig = TsconfigHelper.getTsConfig(folder);
+            if (!tsConfig) {
+                return;
+            }
+
+            const outDir: string = tsConfig.compilerOptions.outDir;
+
+            if (!outDir || outDir.length === 0) {
+                console.log(logSymbols.error, 'Output directory not found in tsconfig.json!');
+                console.log(tsConfig);
+                return;
+            }
+
+            console.log(logSymbols.info, 'Clear output directory (' + outDir + ')');
+            rimraf.sync(FileHelper.path([folder, outDir]));
+
+            console.log(logSymbols.info, 'Compile to output directory');
+            try {
+                await ExecHelper.exec('tsc', [], folder);
+            } catch (e) {
+                console.warn(e);
+            }
         }
 
-        const outDir: string = tsConfig.compilerOptions.outDir;
 
-        if (!outDir || outDir.length === 0) {
-            console.log(logSymbols.error, 'Output directory not found in tsconfig.json!');
-            console.log(tsConfig);
-            return;
-        }
 
-        console.log(logSymbols.info, 'Clear output directory (' + outDir + ')');
-        rimraf.sync(FileHelper.path([folder, outDir]));
-
-        console.log(logSymbols.info, 'Compile to output directory');
-        try {
-
-            await ExecHelper.exec('tsc', [], folder);
-        } catch (e) {
-            console.warn(e);
-        }
 
     }
 }

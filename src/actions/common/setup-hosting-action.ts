@@ -110,6 +110,10 @@ export class SetupHostingAction {
             default: component.id
         });
 
+        if (teamData.id !== currentUser.uid) {
+            vercelAccount.credentials.teamId = teamData.id;
+        }
+
         do {
             try {
                 const newProject = await VercelConnector.createProject(vercelAccount.credentials, projectName, component.repository);

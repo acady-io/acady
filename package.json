@@ -1,6 +1,6 @@
 {
   "name": "acady",
-  "version": "0.0.1-dev",
+  "version": "0.0.2-dev",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -54,6 +54,7 @@
     "node-fetch": "^2.6.1",
     "npm-registry-fetch": "^9.0.0",
     "ora": "^5.1.0",
+    "pluralize": "^8.0.0",
     "simple-git": "^2.31.0",
     "slugify": "^1.4.6",
     "tmp": "^0.2.1",

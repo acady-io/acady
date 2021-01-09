@@ -16,8 +16,6 @@ export class DevAction {
     }
 
     private static async devFolder(folder: string) {
-        await BuildAction.buildFolder(folder);
-
         let acadyConfig = AcadyConfigHelper.getConfig(folder);
         if (!acadyConfig)
             return;
@@ -28,6 +26,10 @@ export class DevAction {
                 break;
             case "rest_api":
                 await DevAction.devRestApi(acadyConfig, folder);
+                break;
+            case "react":
+                await DevAction.devReact(acadyConfig, folder);
+                break;
         }
     }
 
@@ -37,12 +39,18 @@ export class DevAction {
     }
 
     private static async devRestApi(acadyConfig: AcadyConfig, folder: string) {
+        await BuildAction.buildFolder(folder);
         console.log(logSymbols.info, 'acady is starting development server for REST api ...');
         const apiPath = FileHelper.path([folder, 'build', 'api.js']);
         const apiBuilder: ApiBuilder = require(apiPath).default;
         const devServer = new RestApiDevServer(apiBuilder);
         await devServer.start();
 
+    }
+
+    private static async devReact(acadyConfig: AcadyConfig, folder: string) {
+        console.log(logSymbols.info, 'acady is starting React in development mode ...');
+        await ExecHelper.pipe('react-scripts', ['start'], folder);
     }
 }
 
