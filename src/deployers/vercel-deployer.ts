@@ -7,18 +7,23 @@ import ora = require("ora");
 import logSymbols = require("log-symbols");
 import moment = require("moment");
 import {GitDeployer} from "./git-deployer";
+import {VercelCredentials} from "../dto/credentials/vercel-credentials";
 
 export class VercelDeployer {
 
     public static async deployVercel(acadyConfig: AcadyConfig, folder, _stage) {
         const vercelConfig = acadyConfig.accounts.vercel;
         const vercelAccount = AccountService.getAccount('vercel', vercelConfig.accountId);
+        const vercelCredentials: VercelCredentials = vercelAccount.credentials;
+
+        if (acadyConfig.hosting.providerData.vercelAccountId.startsWith('team_'))
+            vercelCredentials.teamId = acadyConfig.hosting.providerData.vercelAccountId;
 
         const timestamp = Date.now();
         const commitId = await GitDeployer.commitAndPush(acadyConfig, folder);
 
         const spinner1 = ora('Waiting for Vercel to start deployment ').start();
-        let deploymentUid = await VercelDeployer.findCommitVercelDeployment(acadyConfig, vercelAccount.credentials, commitId);
+        let deploymentUid = await VercelDeployer.findCommitVercelDeployment(acadyConfig, vercelCredentials, commitId);
         spinner1.stopAndPersist({
             symbol: logSymbols.info,
             text: 'Deployment ' + deploymentUid + ' started'
@@ -30,10 +35,10 @@ export class VercelDeployer {
 
         const spinner2 = ora('Deployment is running ').start();
         do {
-            deployment = await VercelConnector.getDeployment(vercelAccount.credentials, deploymentUid);
+            deployment = await VercelConnector.getDeployment(vercelCredentials, deploymentUid);
             let to = Date.now();
 
-            const logs = await VercelConnector.getLogs(vercelAccount.credentials, deploymentUid, {
+            const logs = await VercelConnector.getLogs(vercelCredentials, deploymentUid, {
                 since: from,
                 until: to
             })
@@ -81,7 +86,7 @@ export class VercelDeployer {
 
 
 
-    private static async findCommitVercelDeployment(acadyConfig: AcadyConfig, credentials: any, commitId): Promise<any> {
+    private static async findCommitVercelDeployment(acadyConfig: AcadyConfig, credentials: VercelCredentials, commitId): Promise<any> {
         return new Promise(async (resolve, reject) => {
             setTimeout(() => {
                 reject('Cannot find Vercel Deployment');

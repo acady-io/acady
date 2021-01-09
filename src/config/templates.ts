@@ -13,6 +13,12 @@ const templates: Template[] = [{
     gitUrl: 'https://github.com/acady-io/template-next-default.git',
     author: 'christian.schab@web.academy'
 }, {
+    id: 'template-react-default',
+    name: 'React Default Template',
+    subtype: 'react',
+    gitUrl: 'https://github.com/acady-io/template-react-default.git',
+    author: 'christian.schab@web.academy'
+}, {
     id: 'template-backend-library',
     name: 'Backend Library Template',
     subtype: 'backend_library',

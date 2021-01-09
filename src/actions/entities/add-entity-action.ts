@@ -6,8 +6,10 @@ import entityConnectors from "../../config/entity-connectors";
 import {Entity} from "../../dto/entity";
 import chalk from "chalk";
 import {StringHelper} from "../../helpers/string-helper";
-import {EntityCodeGenerator} from "../../code-generators/entity-code-generator";
+import {DynamodbEntityCodeGenerator} from "../../code-generators/dynamodb-entity-code-generator";
 import logSymbols from "log-symbols";
+import {NpmHelper} from "../../helpers/npm-helper";
+import {log} from "util";
 
 export class AddEntityAction {
 
@@ -77,13 +79,15 @@ export class AddEntityAction {
                     type: 'string'
                 })
 
-            console.log(newEntity);
+            const codeGenerator = new DynamodbEntityCodeGenerator(folder, newEntity);
+            codeGenerator.generateEntityCode();
         }
 
+        await NpmHelper.install(folder, ['acady-connector-' + newEntity.connector]);
+        acadyConfig.entities.push(newEntity);
+        AcadyConfigHelper.storeConfig(acadyConfig, folder);
 
-        EntityCodeGenerator.generateEntityCode(folder, newEntity);
-
-
+        console.log(logSymbols.success, 'Created stub classes for entity ' + chalk.whiteBright(newEntity.name));
 
     }
 }
