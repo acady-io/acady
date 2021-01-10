@@ -1,5 +1,5 @@
 import {WaitHelper} from "@web-academy/core-lib";
-import * as chalk from "chalk";
+import chalk from "chalk";
 import {AcadyConfig} from "../dto/acady-config";
 import {VercelConnector} from "../connectors/vercel-connector";
 import {AccountService} from "../services/account-service";

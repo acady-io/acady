@@ -78,8 +78,8 @@ class VercelConnector {
                 url += '?teamId=' + teamId;
         }
 
-        console.log("Vercel Request to " + url);
-        console.log(requestBody);
+        // console.log("Vercel Request to " + url);
+        // console.log(requestBody);
 
         const headers: any = {
             'Authorization': 'Bearer ' + apiToken
