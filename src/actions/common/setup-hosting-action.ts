@@ -85,14 +85,16 @@ export class SetupHostingAction {
             })]
         })
 
-        if (teamData.accountId === 'NEW') {
+        // console.log("Team Data: ", teamData);
+
+        if (teamData.id === 'NEW') {
             const teamName = await CliHelper.prompt({
                 type: 'input',
                 message: 'Name of new Vercel team:',
             });
             const teamSlug = await CliHelper.prompt({
                 type: 'input',
-                messag: 'Team URL path:',
+                message: 'Team URL path:',
                 default: StringHelper.slugify(teamName)
             });
 
@@ -150,8 +152,7 @@ export class SetupHostingAction {
                 console.log(logSymbols.info, "Please connect your Vercel account " + teamData.name + " with " + serviceName + " workspace " + workspace);
                 console.log(logSymbols.info, connectUrl);
                 await CliHelper.prompt({
-                    type: 'input',
-                    name: 'confirm',
+                    type: 'confirm',
                     message: "Have you connected your Vercel account " + teamData.name + " with " + serviceName + " workspace " + workspace + '?'
                 });
             }
