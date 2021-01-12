@@ -6,7 +6,7 @@ import {NpmHelper} from "../helpers/npm-helper";
 import {AccountService} from "../services/account-service";
 import {AwsLambdaConnector} from "../connectors/aws-lambda-connector";
 import {AwsIamConnector} from "../connectors/aws-iam-connector";
-import * as chalk from "chalk";
+import chalk from "chalk";
 import {AcadyConfigHelper} from "../helpers/acady-config-helper";
 import {TsconfigHelper} from "../helpers/tsconfig-helper";
 import {AwsGatewayConnector} from "../connectors/aws-gateway-connector";
