@@ -24,6 +24,9 @@ export class DevAction {
             case "gatsby":
                 await DevAction.devGatsby(acadyConfig, folder);
                 break;
+            case "nextjs":
+                await DevAction.devNextjs(acadyConfig, folder);
+                break;
             case "rest_api":
                 await DevAction.devRestApi(acadyConfig, folder);
                 break;
@@ -51,6 +54,11 @@ export class DevAction {
     private static async devReact(acadyConfig: AcadyConfig, folder: string) {
         console.log(logSymbols.info, 'acady is starting React in development mode ...');
         await ExecHelper.pipe('react-scripts', ['start'], folder);
+    }
+
+    private static async devNextjs(acadyConfig: AcadyConfig, folder: string) {
+        console.log(logSymbols.info, 'acady is starting nextjs in development mode ...');
+        await ExecHelper.pipe('next', ['dev'], folder);
     }
 }
 
