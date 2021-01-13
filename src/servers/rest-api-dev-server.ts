@@ -1,5 +1,5 @@
 import logSymbols = require("log-symbols");
-import * as chalk from "chalk";
+import chalk from "chalk";
 import {ApiBuilder} from "acady-api-builder";
 
 const express = require('express');

@@ -1,5 +1,5 @@
 import subtypes from "../config/subtypes";
-import * as chalk from "chalk";
+import chalk from "chalk";
 
 export class SubtypeHelper {
 

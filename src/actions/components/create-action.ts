@@ -10,7 +10,6 @@ import {HostingHelper} from "../../helpers/hosting-helper";
 import {SubtypeHelper} from "../../helpers/subtype-helper";
 import {ComponentService} from "../../services/component-service";
 import {SetupFolderAction} from "../common/setup-folder-action";
-import * as chalk from "chalk";
 import {DebugHelper} from "../../helpers/debug-helper";
 import {InitAction} from "../component/init-action";
 
