@@ -12,7 +12,7 @@ export class DebugHelper {
     }
 
     public static debug(exception) {
-        if (DebugHelper.cmdObj.debug) {
+        if (DebugHelper.cmdObj?.debug === true) {
             console.log(chalk.grey('DEBUG'), 'Version: ' + DebugHelper.getMostParentCommand().version());
             console.log(chalk.grey('DEBUG'), 'Message:', exception.message);
             console.log(chalk.grey('DEBUG'), 'Stack:', exception.stack);

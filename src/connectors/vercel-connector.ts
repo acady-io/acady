@@ -68,6 +68,10 @@ class VercelConnector {
         return response;
     }
 
+    public static async updateProject(credentials: VercelCredentials, projectId: string, projectConfig: any) {
+        return await VercelConnector.request(credentials.apiToken, credentials.teamId, 'v2/projects/' + projectId, 'PATCH', projectConfig);
+    }
+
     public static async request(apiToken: string, teamId: string, path: string, method?: string, requestBody?: any, contentType?: string): Promise<any> {
         let url = VercelConnector.ENDPOINT + path;
 
