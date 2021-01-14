@@ -48,7 +48,6 @@ export class DevAction {
         const apiBuilder: ApiBuilder = require(apiPath).default;
         const devServer = new RestApiDevServer(apiBuilder);
         await devServer.start();
-
     }
 
     private static async devReact(acadyConfig: AcadyConfig, folder: string) {

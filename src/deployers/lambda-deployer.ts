@@ -13,6 +13,8 @@ import {AwsGatewayConnector} from "../connectors/aws-gateway-connector";
 
 const tmp = require('tmp');
 import logSymbols = require("log-symbols");
+import {WaitHelper} from "@web-academy/core-lib";
+import ora from "ora";
 
 const fs = require('fs');
 const fse = require('fs-extra');
@@ -42,6 +44,9 @@ export class LambdaDeployer {
             const accountConfig = acadyConfig.accounts.aws;
             const awsAccount = await AccountService.loadAccount('aws', accountConfig.accountId);
 
+            if (!deployConfig.roleArn) {
+                deployConfig.roleArn = await LambdaDeployer.createRole(awsAccount.credentials, acadyConfig);
+            }
 
             const packageJson = PackageConfigHelper.getPackageJson(folder);
             if (!packageJson)
@@ -66,10 +71,6 @@ export class LambdaDeployer {
             FileHelper.replaceSymlinks(FileHelper.path([workDir, 'node_modules']));
             await LambdaDeployer.zipDir(zipFile, workDir, tmpDir);
 
-
-            if (!deployConfig.roleArn) {
-                deployConfig.roleArn = await LambdaDeployer.createRole(awsAccount.credentials, acadyConfig);
-            }
 
             if (deployConfig.lambdaId) {
                 // Update Lambda
@@ -144,7 +145,7 @@ export class LambdaDeployer {
                         IntegrationMethod: 'POST',
                         IntegrationUri: deployConfig.lambdaId + ':${stageVariables.lambdaAlias}',
                         TimeoutInMillis: 30000,
-                        PayloadFormatVersion: "2.0"
+                        PayloadFormatVersion: "1.0"
                     });
 
                     console.log(logSymbols.info, 'New Lambda Integration created');
@@ -191,7 +192,6 @@ export class LambdaDeployer {
             }
 
 
-
         } catch (e) {
             console.log(e);
         }
@@ -210,6 +210,7 @@ export class LambdaDeployer {
 
 
     private static async createRole(credentials, acadyConfig: AcadyConfig) {
+        const spinnerRole = ora('Creating role').start();
         const policyDoc = {
             "Version": "2012-10-17",
             "Statement": [
@@ -221,8 +222,6 @@ export class LambdaDeployer {
             ]
         };
         const policy = await AwsIamConnector.createPolicy(credentials, acadyConfig.id + '-policy', policyDoc);
-        console.log(logSymbols.info, 'Created Policy ' + chalk.whiteBright(acadyConfig.id + '-policy'));
-
         const assumeRolePolicy = {
             "Version": "2012-10-17",
             "Statement": [
@@ -236,11 +235,13 @@ export class LambdaDeployer {
             ]
         }
         const role = await AwsIamConnector.createRole(credentials, acadyConfig.id + '-role', assumeRolePolicy);
-        console.log(logSymbols.info, 'Created Role ' + chalk.whiteBright(acadyConfig.id + '-role'));
-
         await AwsIamConnector.attachRolePolicy(credentials, role.RoleName, policy.Arn);
-        console.log(logSymbols.info, 'Attaches Policy to Role');
 
+        await WaitHelper.wait(20000);
+        spinnerRole.stopAndPersist({
+            symbol: logSymbols.success,
+            text: 'Role ' + chalk.whiteBright(role.Arn) + ' is now set up '
+        });
         return role.Arn;
     }
 
