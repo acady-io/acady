@@ -11,6 +11,12 @@ export class DebugHelper {
         DebugHelper.cmdObj = cmdObj;
     }
 
+    public static debugLog(...args) {
+        if (DebugHelper.cmdObj?.debug === true) {
+            console.log(...args);
+        }
+    }
+
     public static debug(exception) {
         if (DebugHelper.cmdObj?.debug === true) {
             console.log(chalk.grey('DEBUG'), 'Version: ' + DebugHelper.getMostParentCommand().version());

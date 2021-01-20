@@ -8,10 +8,12 @@ import {RestApiDevServer} from "../../servers/rest-api-dev-server";
 import {ApiBuilder} from "acady-api-builder";
 import {BuildAction} from "./build-action";
 import {AccountService} from "../../services/account-service";
+import {DebugHelper} from "../../helpers/debug-helper";
 
 export class DevAction {
 
     public static async dev(cmdObj: Command) {
+        DebugHelper.setCommand(cmdObj);
         let folder = process.cwd();
         await DevAction.devFolder(folder);
     }
@@ -47,6 +49,7 @@ export class DevAction {
             const awsAccount = AccountService.loadAccount('aws', acadyConfig.accounts.aws.accountId);
             const awsCredentials = awsAccount.credentials;
 
+            DebugHelper.debugLog("Inject AWS credentials ", awsCredentials.accessKeyId);
             process.env.AWS_ACCESS_KEY_ID = awsCredentials.accessKeyId;
             process.env.AWS_SECRET_ACCESS_KEY = awsCredentials.secretAccessKey;
             process.env.AWS_REGION = acadyConfig.accounts.aws.region;
