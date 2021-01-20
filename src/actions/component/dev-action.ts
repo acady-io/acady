@@ -7,6 +7,7 @@ import {FileHelper} from "../../helpers/file-helper";
 import {RestApiDevServer} from "../../servers/rest-api-dev-server";
 import {ApiBuilder} from "acady-api-builder";
 import {BuildAction} from "./build-action";
+import {AccountService} from "../../services/account-service";
 
 export class DevAction {
 
@@ -42,6 +43,16 @@ export class DevAction {
     }
 
     private static async devRestApi(acadyConfig: AcadyConfig, folder: string) {
+        if (acadyConfig.accounts.aws) {
+            const awsAccount = AccountService.loadAccount('aws', acadyConfig.accounts.aws.accountId);
+            const awsCredentials = awsAccount.credentials;
+
+            process.env.AWS_ACCESS_KEY_ID = awsCredentials.accessKeyId;
+            process.env.AWS_SECRET_ACCESS_KEY = awsCredentials.secretAccessKey;
+            process.env.AWS_REGION = acadyConfig.accounts.aws.region;
+        }
+
+
         await BuildAction.buildFolder(folder);
         console.log(logSymbols.info, 'acady is starting development server for REST api ...');
         const apiPath = FileHelper.path([folder, 'build', 'api.js']);
