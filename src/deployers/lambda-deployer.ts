@@ -71,9 +71,19 @@ export class LambdaDeployer {
             FileHelper.replaceSymlinks(FileHelper.path([workDir, 'node_modules']));
             await LambdaDeployer.zipDir(zipFile, workDir, tmpDir);
 
+            const environmentVariables = {
+                ...stageConfig.environmentVariables,
+                stage
+            };
 
             if (deployConfig.lambdaId) {
                 // Update Lambda
+                await AwsLambdaConnector.updateFunctionConfig(awsAccount.credentials, accountConfig.region, {
+                    FunctionName: deployConfig.lambdaName,
+                    Environment: {
+                        Variables: environmentVariables
+                    }
+                });
 
                 const functionConfiguration = await AwsLambdaConnector.updateFunctionCode(awsAccount.credentials, accountConfig.region, {
                     FunctionName: deployConfig.lambdaName,
@@ -91,6 +101,9 @@ export class LambdaDeployer {
                     Role: deployConfig.roleArn,
                     Code: {
                         ZipFile: fs.readFileSync(zipFilePath)
+                    },
+                    Environment: {
+                        Variables: environmentVariables
                     },
                     Publish: true,
                     Runtime: "nodejs12.x",
