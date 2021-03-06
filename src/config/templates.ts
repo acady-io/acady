@@ -31,6 +31,27 @@ const templates: Template[] = [{
     hosting: 'aws_lambda',
     gitUrl: 'https://github.com/acady-io/template-rest-api-http-gateway.git',
     author: 'christian.schab@web.academy'
+}, {
+    id: 'template-sf-worker',
+    name: 'Step Function Worker Template',
+    subtype: 'sf_worker',
+    hosting: 'aws_lambda',
+    gitUrl: 'https://github.com/acady-io/template-sf-worker.git',
+    author: 'christian.schab@web.academy'
+},{
+    id: 'template-sf-worker',
+    name: 'SQS Worker Template',
+    subtype: 'sqs_worker',
+    hosting: 'aws_lambda',
+    gitUrl: 'https://github.com/acady-io/template-sqs-worker.git',
+    author: 'christian.schab@web.academy'
+}, {
+    id: 'template-stream-processor',
+    name: 'Stream Processor Template',
+    subtype: 'stream_processor',
+    hosting: 'aws_lambda',
+    gitUrl: 'https://github.com/acady-io/template-stream-processor.git',
+    author: 'christian.schab@web.academy'
 }];
 
 export default templates;

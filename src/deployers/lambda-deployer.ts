@@ -15,7 +15,9 @@ const tmp = require('tmp');
 import logSymbols = require("log-symbols");
 import {WaitHelper} from "@web-academy/core-lib";
 import ora from "ora";
+import {DebugHelper} from "../helpers/debug-helper";
 
+const rimraf = require("rimraf");
 const fs = require('fs');
 const fse = require('fs-extra');
 const gulp = require('gulp');
@@ -58,7 +60,7 @@ export class LambdaDeployer {
             const workDir = FileHelper.path([tmpDir, acadyConfig.id]);
             fs.mkdirSync(workDir);
 
-            // console.log("WorkDir: " + workDir);
+            DebugHelper.debugLog("WorkDir: " + workDir);
 
             let fileList: string[] = packageJson.files;
             fileList.push('package.json');
@@ -69,6 +71,7 @@ export class LambdaDeployer {
 
             await NpmHelper.install(workDir, ['-q', '--no-audit', '--production']);
             FileHelper.replaceSymlinks(FileHelper.path([workDir, 'node_modules']));
+            rimraf.sync(FileHelper.path([workDir, 'node_modules', 'aws-sdk']));
             await LambdaDeployer.zipDir(zipFile, workDir, tmpDir);
 
             const environmentVariables = {

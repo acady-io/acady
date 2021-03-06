@@ -9,7 +9,9 @@ const hostings: SelectOption[] = [{
             'task_worker',
             'edge_proxy',
             'stream_processor',
-            'event_processor'
+            'event_processor',
+            'sf_worker',
+            'sqs_worker'
         ]
     }
 }, {

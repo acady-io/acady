@@ -1,6 +1,6 @@
 {
   "name": "acady",
-  "version": "0.0.3-dev",
+  "version": "0.0.7-dev",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
