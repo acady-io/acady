@@ -79,7 +79,7 @@ export class BuildAction {
 
         console.log(logSymbols.info, 'Compile to output directory');
         try {
-            await ExecHelper.exec('tsc', [], folder);
+            await ExecHelper.exec('npx', ['tsc'], folder);
         } catch (e) {
             console.warn(e);
         }
