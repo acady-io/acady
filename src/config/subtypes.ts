@@ -8,8 +8,15 @@ const subtypes: Subtype[] = [{
         type: 'backend'
     }
 }, {
-    id: 'task_worker',
-    name: 'Task Worker (SQS, Step Functions, ...)',
+    id: 'sf_worker',
+    name: 'Step Function Worker',
+    type: 'backend',
+    conditions: {
+        type: 'backend'
+    }
+}, {
+    id: 'sqs_worker',
+    name: 'SQS Task Worker',
     type: 'backend',
     conditions: {
         type: 'backend'
