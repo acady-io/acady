@@ -15,7 +15,7 @@ export class RestApiDevServer {
         return new Promise(resolve => {
             const expressApp = express();
 
-            expressApp.use(express.raw());
+            expressApp.use(express.raw({type: "*/*"}));
             expressApp.all('*', async (request, response) => {
                 try {
                     console.log(chalk.grey('DevServer'), logSymbols.info, '> ' + request.method + ' ' + request.path);
