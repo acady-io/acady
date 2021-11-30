@@ -15,19 +15,7 @@ export class RestApiDevServer {
         return new Promise(resolve => {
             const expressApp = express();
 
-            expressApp.use(function (req, res, next) {
-                let data = '';
-                req.setEncoding('utf8');
-                req.on('data', function (chunk) {
-                    data += chunk;
-                });
-                req.on('end', function () {
-                    req.rawBody = data;
-                    next();
-                });
-            });
-            expressApp.use(express.json());
-
+            expressApp.use(express.raw());
             expressApp.all('*', async (request, response) => {
                 try {
                     console.log(chalk.grey('DevServer'), logSymbols.info, '> ' + request.method + ' ' + request.path);
