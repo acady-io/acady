@@ -15,6 +15,9 @@ This is where acady comes into place. Acady helps you do those recurring tasks t
 The goal of acady is to give you a tool that helps you build great software even faster.
 Regardless of whether you are building a Task Worker on AWS Lambda, a Gatsby Site on Vercel, a REST API on Cloudflare Workers ... acady can assist you.
 
+# Updates:
+Removed netlify support due to security vulnerabilities
+
 # Installation
 
 ## NPM
