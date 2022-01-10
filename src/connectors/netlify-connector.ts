@@ -1,6 +1,6 @@
 import {NetlifyCredentials} from "../dto/credentials/netlify-credentials";
 
-const NetlifyAPI = require('netlify')
+import {NetlifyAPI} from 'netlify';
 
 export class NetlifyConnector {
 
