@@ -2,7 +2,7 @@ import {Command} from "commander";
 import {AcadyConfigHelper} from "../../helpers/acady-config-helper";
 import {AcadyConfig} from "../../dto/acady-config";
 import {ExecHelper} from "../../helpers/exec-helper";
-import logSymbols = require("log-symbols");
+import logSymbols from "log-symbols";
 import {FileHelper} from "../../helpers/file-helper";
 import {RestApiDevServer} from "../../servers/rest-api-dev-server";
 import {ApiBuilder} from "acady-api-builder";

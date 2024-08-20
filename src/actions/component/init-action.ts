@@ -3,7 +3,7 @@ import {ComponentService} from "../../services/component-service";
 import {NpmHelper} from "../../helpers/npm-helper";
 import {AcadyConfigHelper} from "../../helpers/acady-config-helper";
 
-const path = require("path");
+import path from "path";
 
 export class InitAction {
 

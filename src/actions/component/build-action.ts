@@ -1,13 +1,13 @@
 import {Command} from "commander";
 import {AcadyConfigHelper} from "../../helpers/acady-config-helper";
 import {DebugHelper} from "../../helpers/debug-helper";
-import logSymbols = require("log-symbols");
+import logSymbols from "log-symbols";
 import {TsconfigHelper} from "../../helpers/tsconfig-helper";
 import {FileHelper} from "../../helpers/file-helper";
 import {ExecHelper} from "../../helpers/exec-helper";
 import {AcadyConfig} from "../../dto/acady-config";
 
-const rimraf = require("rimraf");
+import rimraf from "rimraf";
 
 export class BuildAction {
 
