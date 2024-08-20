@@ -62,7 +62,8 @@ export class DevAction {
         await BuildAction.buildFolder(folder);
         console.log(logSymbols.info, 'acady is starting development server for REST api ...');
         const apiPath = FileHelper.path([folder, 'build', 'api.js']);
-        const apiBuilder: ApiBuilder = require(apiPath).default;
+        const apiBuilderModule = await import(apiPath);
+        const apiBuilder: ApiBuilder = apiBuilderModule.default;
         const devServer = new RestApiDevServer(apiBuilder);
         await devServer.start();
     }
