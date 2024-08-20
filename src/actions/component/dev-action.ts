@@ -9,6 +9,7 @@ import {ApiBuilder} from "acady-api-builder";
 import {BuildAction} from "./build-action";
 import {AccountService} from "../../services/account-service";
 import {DebugHelper} from "../../helpers/debug-helper";
+import dotenv from 'dotenv';
 
 export class DevAction {
 
@@ -45,7 +46,7 @@ export class DevAction {
     }
 
     private static async devRestApi(acadyConfig: AcadyConfig, folder: string) {
-        require('dotenv').config();
+        dotenv.config();
 
         if (acadyConfig.accounts.aws) {
             const awsAccount = AccountService.loadAccount('aws', acadyConfig.accounts.aws.accountId);
