@@ -46,6 +46,7 @@ export class DevAction {
 
     private static async devRestApi(acadyConfig: AcadyConfig, folder: string) {
         require('dotenv').config();
+
         if (acadyConfig.accounts.aws) {
             const awsAccount = AccountService.loadAccount('aws', acadyConfig.accounts.aws.accountId);
             const awsCredentials = awsAccount.credentials;
