@@ -50,12 +50,14 @@ export class DevAction {
 
         if (acadyConfig.accounts.aws) {
             const awsAccount = AccountService.loadAccount('aws', acadyConfig.accounts.aws.accountId);
-            const awsCredentials = awsAccount.credentials;
+            if (awsAccount && awsAccount.credentials) {
+                const awsCredentials = awsAccount.credentials;
 
-            DebugHelper.debugLog("Inject AWS credentials ", awsCredentials.accessKeyId);
-            process.env.AWS_ACCESS_KEY_ID = awsCredentials.accessKeyId;
-            process.env.AWS_SECRET_ACCESS_KEY = awsCredentials.secretAccessKey;
-            process.env.AWS_REGION = acadyConfig.accounts.aws.region;
+                DebugHelper.debugLog("Inject AWS credentials ", awsCredentials.accessKeyId);
+                process.env.AWS_ACCESS_KEY_ID = awsCredentials.accessKeyId;
+                process.env.AWS_SECRET_ACCESS_KEY = awsCredentials.secretAccessKey;
+                process.env.AWS_REGION = acadyConfig.accounts.aws.region;
+            }
         }
 
 
